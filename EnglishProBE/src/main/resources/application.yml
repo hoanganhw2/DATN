@@ -1,0 +1,75 @@
+# Cấu hình Server
+server:
+  port: 8888
+  servlet:
+    context-path: /api/v1 # Tiền tố cho tất cả các API endpoint
+# Cấu hình Spring Context
+spring:
+  application:
+    name: EnglishPro
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/englishpro
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: false # In các câu lệnh SQL ra console để debug
+    hibernate:
+      ddl-auto: update # Tự động cập nhật schema DB (create, update, validate, none)
+    properties:
+      hibernate:
+        format_sql: true # Format câu lệnh SQL cho dễ nhìn
+        dialect: org.hibernate.dialect.MySQLDialect
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2048MB # Tối đa 2GB (cho video)
+      max-request-size: 2050MB # Cho phép thêm vài MB cho form fields
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Thư mục lưu file upload (tương đối với thư mục chạy ứng dụng)
+file:
+  upload-dir: uploads
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+# Cấu hình JWT
+jwt:
+  signerKey: ${JWT_SECRET}
+  expiration: 3600000 # 1 giờ
+  refresh-expiration: 604800000 # 7 ngày
+# AI Config
+ai:
+  gemini:
+    api-key: ${GEMINI_API_KEY}
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=
+    max-retries: 3
+    retry-delay-ms: 2000
+# VNPay Payment Gateway (Sandbox)
+payment:
+  vnpay:
+    tmn-code: ${VNPAY_TMN_CODE}
+    secret-key: ${VNPAY_SECRET_KEY}
+    pay-url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    return-url: http://localhost:5173/payment-result
+
+# Logging - suppress ClientAbortException spam from media streaming
+# (Caused by browser closing connection when user seeks/navigates away - expected behavior)
+logging:
+  level:
+    org.apache.catalina.connector: WARN
+    org.springframework.web.servlet.resource: WARN

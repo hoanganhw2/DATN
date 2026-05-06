@@ -1,0 +1,367 @@
+import type { FlashcardDeck, FlashcardCard } from './flashcard'
+
+// Demo Decks
+export const mockDecks: FlashcardDeck[] = [
+  {
+    id: 1,
+    title: 'IELTS Vocabulary - Part 1',
+    description: 'Từ vựng cơ bản cho kỳ thi IELTS',
+    imageUrl: 'https://via.placeholder.com/300x200?text=IELTS+Vocab',
+    totalCards: 12,
+    masteredCards: 5,
+    dueToday: 4,
+    lastReviewedAt: new Date().toISOString(),
+    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 2,
+    title: 'Business English - Meetings',
+    description: 'Tiếng Anh kinh doanh - Hội họp',
+    imageUrl: 'https://via.placeholder.com/300x200?text=Business',
+    totalCards: 18,
+    masteredCards: 12,
+    dueToday: 2,
+    lastReviewedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 3,
+    title: 'Phrasal Verbs Level 1',
+    description: 'Cụm động từ tiếng Anh cơ bản',
+    totalCards: 20,
+    masteredCards: 8,
+    dueToday: 6,
+    createdAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+]
+
+// Demo Cards for Deck 1 (IELTS Vocabulary)
+export const mockDeck1Cards: FlashcardCard[] = [
+  {
+    id: 1,
+    deckId: 1,
+    front: 'Abundant',
+    back: 'Có nhiều, dồi dào',
+    example_sentence: 'The region has abundant natural resources.',
+    status: 'mastered',
+    nextReviewDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 30,
+    easeFactor: 2.5,
+    repetitions: 5,
+  },
+  {
+    id: 2,
+    deckId: 1,
+    front: 'Accommodate',
+    back: 'Chứa chấp, phục vụ',
+    example_sentence: 'The hotel can accommodate up to 500 guests.',
+    status: 'review',
+    nextReviewDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 10,
+    easeFactor: 2.3,
+    repetitions: 3,
+  },
+  {
+    id: 3,
+    deckId: 1,
+    front: 'Ambiguous',
+    back: 'Mơ hồ, không rõ ràng',
+    example_sentence: 'The instructions were ambiguous and confusing.',
+    status: 'learning',
+    nextReviewDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 3,
+    easeFactor: 2.0,
+    repetitions: 2,
+  },
+  {
+    id: 4,
+    deckId: 1,
+    front: 'Benevolent',
+    back: 'Tốt bụng, nhân từ',
+    example_sentence: 'A benevolent leader cares about the welfare of their people.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 5,
+    deckId: 1,
+    front: 'Pragmatic',
+    back: 'Thiết thực, thực dụng',
+    example_sentence: 'We need a pragmatic approach to solve this problem.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 6,
+    deckId: 1,
+    front: 'Meticulous',
+    back: 'Cẩn thận, tỉ mỉ',
+    example_sentence: 'She is meticulous about her work and never makes mistakes.',
+    status: 'learning',
+    nextReviewDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 3,
+    easeFactor: 2.1,
+    repetitions: 1,
+  },
+  {
+    id: 7,
+    deckId: 1,
+    front: 'Eloquent',
+    back: 'Hùng hồn, lưu loát',
+    example_sentence: 'The speaker gave an eloquent speech about climate change.',
+    status: 'mastered',
+    nextReviewDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 45,
+    easeFactor: 2.6,
+    repetitions: 6,
+  },
+  {
+    id: 8,
+    deckId: 1,
+    front: 'Ephemeral',
+    back: 'Thoáng qua, chóng tàn',
+    example_sentence: 'Beauty is often ephemeral and fleeting.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 9,
+    deckId: 1,
+    front: 'Facilitate',
+    back: 'Tạo điều kiện, hỗ trợ',
+    example_sentence: 'We will facilitate the process by providing necessary resources.',
+    status: 'review',
+    nextReviewDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 10,
+    easeFactor: 2.2,
+    repetitions: 2,
+  },
+  {
+    id: 10,
+    deckId: 1,
+    front: 'Gregarious',
+    back: 'Yêu thích sự tập trung, có tính xã hội',
+    example_sentence: 'Humans are gregarious creatures who enjoy social interaction.',
+    status: 'learning',
+    nextReviewDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 5,
+    easeFactor: 2.0,
+    repetitions: 2,
+  },
+  {
+    id: 11,
+    deckId: 1,
+    front: 'Heinous',
+    back: 'Tệ hại, tày trời',
+    example_sentence: 'The criminal committed a heinous crime.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 12,
+    deckId: 1,
+    front: 'Indefatigable',
+    back: 'Không mệt mỏi, không biết mỏi',
+    example_sentence: 'The indefatigable athlete trained day and night.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+]
+
+// Demo Cards for Deck 2 (Business English)
+export const mockDeck2Cards: FlashcardCard[] = [
+  {
+    id: 101,
+    deckId: 2,
+    front: 'Agenda',
+    back: 'Chương trình, kế hoạch họp',
+    example_sentence: 'Please review the agenda before the meeting starts.',
+    status: 'mastered',
+    nextReviewDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 60,
+    easeFactor: 2.6,
+    repetitions: 8,
+  },
+  {
+    id: 102,
+    deckId: 2,
+    front: 'Benchmark',
+    back: 'Tiêu chuẩn so sánh, điểm tham chiếu',
+    example_sentence: 'Our company sets industry benchmarks for quality.',
+    status: 'mastered',
+    nextReviewDate: new Date(Date.now() + 50 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 50,
+    easeFactor: 2.5,
+    repetitions: 7,
+  },
+  {
+    id: 103,
+    deckId: 2,
+    front: 'Consolidate',
+    back: 'Hợp nhất, thống nhất',
+    example_sentence: 'We plan to consolidate our operations next quarter.',
+    status: 'review',
+    nextReviewDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 14,
+    easeFactor: 2.3,
+    repetitions: 3,
+  },
+  {
+    id: 104,
+    deckId: 2,
+    front: 'Discretionary',
+    back: 'Tùy quyết, theo quyền lựa chọn',
+    example_sentence: 'The manager has discretionary authority over budget allocations.',
+    status: 'learning',
+    nextReviewDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 5,
+    easeFactor: 2.1,
+    repetitions: 2,
+  },
+  {
+    id: 105,
+    deckId: 2,
+    front: 'Emerging market',
+    back: 'Thị trường đang phát triển',
+    example_sentence: 'We are investing in emerging markets in Southeast Asia.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 106,
+    deckId: 2,
+    front: 'Fiscal year',
+    back: 'Năm tài chính',
+    example_sentence: 'Our fiscal year ends on December 31st.',
+    status: 'mastered',
+    nextReviewDate: new Date(Date.now() + 55 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 55,
+    easeFactor: 2.5,
+    repetitions: 7,
+  },
+]
+
+// Demo Cards for Deck 3 (Phrasal Verbs)
+export const mockDeck3Cards: FlashcardCard[] = [
+  {
+    id: 201,
+    deckId: 3,
+    front: 'Bring up',
+    back: 'Đề cập, nêu ra',
+    example_sentence: 'She brought up an important issue during the meeting.',
+    status: 'learning',
+    nextReviewDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 3,
+    easeFactor: 2.1,
+    repetitions: 2,
+  },
+  {
+    id: 202,
+    deckId: 3,
+    front: 'Carry out',
+    back: 'Thực hiện, tiến hành',
+    example_sentence: 'The research team will carry out the experiments next week.',
+    status: 'review',
+    nextReviewDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 10,
+    easeFactor: 2.2,
+    repetitions: 3,
+  },
+  {
+    id: 203,
+    deckId: 3,
+    front: 'Come across',
+    back: 'Tình cờ gặp, tìm thấy',
+    example_sentence: 'I came across an old friend at the supermarket.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 204,
+    deckId: 3,
+    front: 'Cut down',
+    back: 'Giảm, cắt giảm',
+    example_sentence: 'We need to cut down on expenses this year.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+  {
+    id: 205,
+    deckId: 3,
+    front: 'Draw up',
+    back: 'Soạn thảo, vẽ',
+    example_sentence: 'The lawyer will draw up the contract tomorrow.',
+    status: 'learning',
+    nextReviewDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+    interval: 3,
+    easeFactor: 2.0,
+    repetitions: 1,
+  },
+  {
+    id: 206,
+    deckId: 3,
+    front: 'Fill out',
+    back: 'Điền vào, hoàn thành',
+    example_sentence: 'Please fill out the form with your personal information.',
+    status: 'new',
+    nextReviewDate: new Date().toISOString(),
+    interval: 1,
+    easeFactor: 2.5,
+    repetitions: 0,
+  },
+]
+
+/**
+ * Helper function to get mock cards for a deck
+ */
+export const getMockCardsForDeck = (deckId: number): FlashcardCard[] => {
+  switch (deckId) {
+    case 1:
+      return mockDeck1Cards
+    case 2:
+      return mockDeck2Cards
+    case 3:
+      return mockDeck3Cards
+    default:
+      return []
+  }
+}
+
+/**
+ * Helper function to get mock cards to review today
+ */
+export const getMockCardsToReviewToday = (deckId: number): FlashcardCard[] => {
+  const allCards = getMockCardsForDeck(deckId)
+  return allCards.filter((card) => {
+    const reviewDate = new Date(card.nextReviewDate)
+    const today = new Date()
+    return reviewDate <= today
+  })
+}
